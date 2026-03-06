@@ -1,0 +1,9 @@
+[[redirects]]
+  from = "/api/*"
+  to = "https://www.kopis.or.kr/openApi/restful/:splat"
+  status = 200
+  force = true
+
+[build]
+  publish = "dist"
+  command = "npm run build"
