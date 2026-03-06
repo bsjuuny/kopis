@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchPerformances } from '../services/api';
 import PerformanceCard from '../components/PerformanceCard';
 import { Loader, RefreshCw, ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const HomePage = () => {
     const [performances, setPerformances] = useState([]);
@@ -19,6 +20,7 @@ const HomePage = () => {
             kid: false, // Child friendly
             keyword: '', // Search keyword
             status: '', // '': all, 01: plan, 02: running
+            sortOrder: 'latest', // Default sorting
         };
     });
 
@@ -58,8 +60,8 @@ const HomePage = () => {
             </div>
 
             {/* Filter & Search Panel */}
-            <div className="bg-slate-900/50 rounded-2xl p-4 sm:p-5 border border-slate-700/50 backdrop-blur-md mb-8 sm:mb-10 shadow-lg">
-                <div className="flex flex-col xl:flex-row gap-4 xl:items-center">
+            <div className="bg-slate-900/50 rounded-3xl p-4 sm:p-6 border border-white/5 backdrop-blur-xl mb-10 shadow-2xl">
+                <div className="flex flex-col lg:flex-row gap-6 lg:items-center">
 
                     {/* Search Bar */}
                     <form
@@ -67,79 +69,84 @@ const HomePage = () => {
                             e.preventDefault();
                             setFilters({ ...filters, keyword: searchInput, page: 1 });
                         }}
-                        className="relative w-full xl:w-[350px] shrink-0"
+                        className="relative flex-1 lg:max-w-md"
                     >
                         <input
                             type="text"
-                            placeholder="Search performances..."
+                            placeholder="공연 명칭을 입력하세요..."
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
-                            className="bg-slate-950 border border-slate-700 text-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm sm:text-base focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none w-full shadow-inner transition-shadow placeholder:text-slate-500"
+                            className="bg-slate-950/50 border border-white/10 text-slate-200 rounded-2xl pl-12 pr-4 py-3 text-sm focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 outline-none w-full shadow-inner backdrop-blur-md transition-all placeholder:text-slate-600"
                         />
-                        <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                        <Search className="w-5 h-5 text-slate-500 absolute left-4 top-1/2 -translate-y-1/2" />
                     </form>
 
-                    <div className="hidden xl:block w-px h-8 bg-slate-700"></div>
+                    <div className="hidden lg:block w-px h-8 bg-white/10"></div>
 
-                    {/* Dropdowns & Toggles */}
-                    <div className="grid grid-cols-2 sm:flex sm:flex-row flex-wrap gap-3 w-full">
+                    {/* Filter Elements Group */}
+                    <div className="flex flex-wrap items-center gap-3 sm:gap-4">
                         <select
-                            className="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-xl px-3 py-2.5 text-sm sm:text-base focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                            className="bg-slate-800/50 border border-white/10 text-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-purple-500/30 outline-none transition-all cursor-pointer hover:bg-slate-700/50"
                             value={filters.status}
                             onChange={(e) => setFilters({ ...filters, status: e.target.value, page: 1 })}
                         >
-                            <option value="">All Status</option>
-                            <option value="02">Running</option>
-                            <option value="01">Upcoming</option>
+                            <option value="">전체 상태</option>
+                            <option value="02">공연중</option>
+                            <option value="01">공연예정</option>
                         </select>
 
                         <select
-                            className="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-xl px-3 py-2.5 text-sm sm:text-base focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                            className="bg-slate-800/50 border border-white/10 text-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-purple-500/30 outline-none transition-all cursor-pointer hover:bg-slate-700/50"
                             value={filters.genre}
                             onChange={(e) => setFilters({ ...filters, genre: e.target.value, page: 1 })}
                         >
-                            <option value="">All Genres</option>
-                            <option value="AAAA">Theater</option>
-                            <option value="BBBC">Dance</option>
-                            <option value="CCCA">Musical</option>
-                            <option value="CCCC">Classic</option>
-                            <option value="CCCD">Opera</option>
-                            <option value="EEEB">Mixed</option>
+                            <option value="">전체 장르</option>
+                            <option value="AAAA">연극</option>
+                            <option value="BBBC">무용</option>
+                            <option value="CCCA">뮤지컬</option>
+                            <option value="CCCC">클래식</option>
+                            <option value="CCCD">오페라</option>
+                            <option value="EEEB">복합</option>
                         </select>
 
                         <select
-                            className="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-xl px-3 py-2.5 text-sm sm:text-base focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-colors cursor-pointer w-full sm:w-auto sm:flex-1 md:flex-none"
+                            className="bg-slate-800/50 border border-white/10 text-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-purple-500/30 outline-none transition-all cursor-pointer hover:bg-slate-700/50"
                             value={filters.area}
                             onChange={(e) => setFilters({ ...filters, area: e.target.value, page: 1 })}
                         >
-                            <option value="">All Areas</option>
-                            <option value="11">Seoul</option>
-                            <option value="26">Busan</option>
-                            <option value="27">Daegu</option>
-                            <option value="28">Incheon</option>
-                            <option value="29">Gwangju</option>
-                            <option value="30">Daejeon</option>
-                            <option value="31">Ulsan</option>
-                            <option value="36">Sejong</option>
-                            <option value="41">Gyeonggi</option>
-                            <option value="43">Chungbuk</option>
-                            <option value="44">Chungnam</option>
-                            <option value="45">Jeonbuk</option>
-                            <option value="46">Jeonnam</option>
-                            <option value="47">Gyeongbuk</option>
-                            <option value="48">Gyeongnam</option>
-                            <option value="50">Jeju</option>
+                            <option value="">전국</option>
+                            <option value="11">서울</option>
+                            <option value="26">부산</option>
+                            <option value="27">대구</option>
+                            <option value="28">인천</option>
+                            <option value="41">경기</option>
+                            <option value="50">제주</option>
+                            {/* ... simplified for cleaner UI, can add more if needed */}
                         </select>
 
-                        <label className="col-span-2 sm:col-span-1 flex items-center justify-center sm:justify-start gap-2 bg-slate-800 border border-slate-700 text-slate-200 rounded-xl px-4 py-2.5 text-sm sm:text-base cursor-pointer hover:bg-slate-700 transition-colors select-none w-full sm:w-auto mt-1 sm:mt-0">
+                        <div className="h-6 w-px bg-white/5 hidden sm:block"></div>
+
+                        <label className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-800/30 border border-white/5 hover:bg-slate-800/50 transition-all cursor-pointer select-none">
                             <input
                                 type="checkbox"
-                                className="accent-purple-500 w-4 h-4 sm:w-5 sm:h-5 rounded focus:ring-purple-500 focus:ring-2 cursor-pointer"
+                                className="accent-purple-500 w-4 h-4 rounded"
                                 checked={filters.kid}
                                 onChange={(e) => setFilters({ ...filters, kid: e.target.checked, page: 1 })}
                             />
-                            <span>For Kids</span>
+                            <span className="text-sm text-slate-400 font-medium">아동용</span>
                         </label>
+
+                        <div className="h-6 w-px bg-white/5 hidden sm:block"></div>
+
+                        <select
+                            className="bg-purple-500/10 border border-purple-500/20 text-purple-300 rounded-xl px-4 py-2.5 text-sm font-bold focus:ring-2 focus:ring-purple-500/30 outline-none transition-all cursor-pointer hover:bg-purple-500/20"
+                            value={filters.sortOrder}
+                            onChange={(e) => setFilters({ ...filters, sortOrder: e.target.value })}
+                        >
+                            <option value="latest">최신 시작순</option>
+                            <option value="ending">마감 임박순</option>
+                            <option value="alphabetical">가나다순</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -169,11 +176,42 @@ const HomePage = () => {
                 </div>
             ) : (
                 <>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 mb-12 w-full">
-                        {performances.map((perf) => (
-                            <PerformanceCard key={perf.id} performance={perf} />
+                    {/* Sort applied before mapping */}
+                    <motion.div
+                        variants={{
+                            hidden: { opacity: 0 },
+                            show: {
+                                opacity: 1,
+                                transition: {
+                                    staggerChildren: 0.05
+                                }
+                            }
+                        }}
+                        initial="hidden"
+                        animate="show"
+                        className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 xs:gap-4 sm:gap-6 mb-12 w-full"
+                    >
+                        {[...performances].sort((a, b) => {
+                            if (filters.sortOrder === 'latest') {
+                                return b.startDate.localeCompare(a.startDate);
+                            } else if (filters.sortOrder === 'ending') {
+                                return a.endDate.localeCompare(b.endDate);
+                            } else if (filters.sortOrder === 'alphabetical') {
+                                return a.title.localeCompare(b.title, 'ko');
+                            }
+                            return 0;
+                        }).map((perf) => (
+                            <motion.div
+                                key={perf.id}
+                                variants={{
+                                    hidden: { opacity: 0, y: 20 },
+                                    show: { opacity: 1, y: 0, transition: { type: 'spring', damping: 25, stiffness: 400 } }
+                                }}
+                            >
+                                <PerformanceCard performance={perf} />
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
 
                     <div className="flex justify-center gap-2 xs:gap-3 sm:gap-4 flex-wrap">
                         <button
