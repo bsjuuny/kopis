@@ -12,7 +12,7 @@ const HomePage = () => {
         const savedFilters = sessionStorage.getItem('kopis_filters');
         return savedFilters ? JSON.parse(savedFilters) : {
             startDate: new Date().toISOString().slice(0, 10).replace(/-/g, ''),
-            endDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10).replace(/-/g, ''), // +60 days
+            endDate: new Date(Date.now() + 120 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10).replace(/-/g, ''), // +120 days
             page: 1,
             rows: 50,
             genre: '', // Optional
