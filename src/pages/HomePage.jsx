@@ -52,15 +52,15 @@ const HomePage = () => {
     return (
         <div className="container pb-8 sm:pb-12 overflow-x-hidden">
             {/* Header */}
-            <div className="mb-6 sm:mb-8">
-                <h2 className="text-2xl xs:text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 tracking-tight">
+            <div className="mb-6 sm:mb-10">
+                <h2 className="text-3xl xs:text-4xl sm:text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[var(--accent-primary)] via-[var(--accent-secondary)] to-[var(--accent-primary)] tracking-tight animate-gradient-x">
                     Now Showing
                 </h2>
-                <p className="text-slate-400 text-sm xs:text-base sm:text-lg mt-1.5">Discover the latest performances in Korea</p>
+                <p className="text-[var(--text-secondary)] text-sm xs:text-base sm:text-lg mt-2 font-medium">Discover the latest performances in Korea</p>
             </div>
 
             {/* Filter & Search Panel */}
-            <div className="bg-slate-900/50 rounded-3xl p-4 sm:p-6 border border-white/5 backdrop-blur-xl mb-10 shadow-2xl">
+            <div className="bg-[var(--bg-card)] rounded-[var(--radius-xl)] p-4 sm:p-6 border border-[var(--border-color)] backdrop-blur-2xl mb-12 shadow-[var(--shadow-lg)]">
                 <div className="flex flex-col lg:flex-row gap-6 lg:items-center">
 
                     {/* Search Bar */}
@@ -76,17 +76,17 @@ const HomePage = () => {
                             placeholder="공연 명칭을 입력하세요..."
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
-                            className="bg-slate-950/50 border border-white/10 text-slate-200 rounded-2xl pl-12 pr-4 py-3 text-sm focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 outline-none w-full shadow-inner backdrop-blur-md transition-all placeholder:text-slate-600"
+                            className="bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] rounded-[var(--radius-lg)] pl-12 pr-4 py-3.5 text-sm focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] outline-none w-full shadow-inner backdrop-blur-md transition-all placeholder:text-[var(--text-muted)]"
                         />
-                        <Search className="w-5 h-5 text-slate-500 absolute left-4 top-1/2 -translate-y-1/2" />
+                        <Search className="w-5 h-5 text-[var(--text-muted)] absolute left-4 top-1/2 -translate-y-1/2" />
                     </form>
 
-                    <div className="hidden lg:block w-px h-8 bg-white/10"></div>
+                    <div className="hidden lg:block w-px h-8 bg-[var(--border-color)]"></div>
 
                     {/* Filter Elements Group */}
                     <div className="flex flex-wrap items-center gap-3 sm:gap-4">
                         <select
-                            className="bg-slate-800/50 border border-white/10 text-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-purple-500/30 outline-none transition-all cursor-pointer hover:bg-slate-700/50"
+                            className="bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-secondary)] rounded-[var(--radius-md)] px-4 py-2.5 text-sm focus:ring-2 focus:ring-[var(--accent-primary)] outline-none transition-all cursor-pointer hover:bg-[var(--bg-tertiary)]"
                             value={filters.status}
                             onChange={(e) => setFilters({ ...filters, status: e.target.value, page: 1 })}
                         >
@@ -96,7 +96,7 @@ const HomePage = () => {
                         </select>
 
                         <select
-                            className="bg-slate-800/50 border border-white/10 text-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-purple-500/30 outline-none transition-all cursor-pointer hover:bg-slate-700/50"
+                            className="bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-secondary)] rounded-[var(--radius-md)] px-4 py-2.5 text-sm focus:ring-2 focus:ring-[var(--accent-primary)] outline-none transition-all cursor-pointer hover:bg-[var(--bg-tertiary)]"
                             value={filters.genre}
                             onChange={(e) => setFilters({ ...filters, genre: e.target.value, page: 1 })}
                         >
@@ -110,7 +110,7 @@ const HomePage = () => {
                         </select>
 
                         <select
-                            className="bg-slate-800/50 border border-white/10 text-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-purple-500/30 outline-none transition-all cursor-pointer hover:bg-slate-700/50"
+                            className="bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-secondary)] rounded-[var(--radius-md)] px-4 py-2.5 text-sm focus:ring-2 focus:ring-[var(--accent-primary)] outline-none transition-all cursor-pointer hover:bg-[var(--bg-tertiary)]"
                             value={filters.area}
                             onChange={(e) => setFilters({ ...filters, area: e.target.value, page: 1 })}
                         >
@@ -121,25 +121,24 @@ const HomePage = () => {
                             <option value="28">인천</option>
                             <option value="41">경기</option>
                             <option value="50">제주</option>
-                            {/* ... simplified for cleaner UI, can add more if needed */}
                         </select>
 
-                        <div className="h-6 w-px bg-white/5 hidden sm:block"></div>
+                        <div className="h-6 w-px bg-[var(--border-color)] hidden sm:block"></div>
 
-                        <label className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-800/30 border border-white/5 hover:bg-slate-800/50 transition-all cursor-pointer select-none">
+                        <label className="flex items-center gap-2.5 px-4 py-2.5 rounded-[var(--radius-md)] bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:bg-[var(--bg-tertiary)] transition-all cursor-pointer select-none">
                             <input
                                 type="checkbox"
-                                className="accent-purple-500 w-4 h-4 rounded"
+                                className="accent-[var(--accent-primary)] w-4 h-4 rounded"
                                 checked={filters.kid}
                                 onChange={(e) => setFilters({ ...filters, kid: e.target.checked, page: 1 })}
                             />
-                            <span className="text-sm text-slate-400 font-medium">아동용</span>
+                            <span className="text-sm text-[var(--text-secondary)] font-medium">아동용</span>
                         </label>
 
-                        <div className="h-6 w-px bg-white/5 hidden sm:block"></div>
+                        <div className="h-6 w-px bg-[var(--border-color)] hidden sm:block"></div>
 
                         <select
-                            className="bg-purple-500/10 border border-purple-500/20 text-purple-300 rounded-xl px-4 py-2.5 text-sm font-bold focus:ring-2 focus:ring-purple-500/30 outline-none transition-all cursor-pointer hover:bg-purple-500/20"
+                            className="bg-[var(--accent-glow)] border border-[var(--accent-glow)] text-[var(--accent-primary)] rounded-[var(--radius-md)] px-4 py-2.5 text-sm font-bold focus:ring-2 focus:ring-[var(--accent-primary)] outline-none transition-all cursor-pointer hover:opacity-80"
                             value={filters.sortOrder}
                             onChange={(e) => setFilters({ ...filters, sortOrder: e.target.value })}
                         >
@@ -152,9 +151,9 @@ const HomePage = () => {
             </div>
 
             {loading ? (
-                <div className="flex flex-col items-center justify-center py-20" >
-                    <Loader className="w-10 h-10 text-purple-500 animate-spin mb-4" />
-                    <p className="text-slate-400">Loading performances...</p>
+                <div className="flex flex-col items-center justify-center py-24" >
+                    <Loader className="w-12 h-12 text-[var(--accent-primary)] animate-spin mb-6" />
+                    <p className="text-[var(--text-secondary)] font-medium">Curating the stage for you...</p>
                 </div>
             ) : error ? (
                 <div className="bg-red-900/20 border border-red-500/50 rounded-xl p-8 text-center max-w-lg mx-auto">
@@ -217,19 +216,19 @@ const HomePage = () => {
                         <button
                             disabled={filters.page === 1}
                             onClick={() => setFilters({ ...filters, page: filters.page - 1 })}
-                            className="flex items-center gap-1 xs:gap-2 px-3 xs:px-4 sm:px-6 py-2 xs:py-2.5 sm:py-3 bg-slate-800 rounded-lg xs:rounded-xl hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm xs:text-base font-medium border border-slate-700 hover:border-purple-500/50"
+                            className="flex items-center gap-1 xs:gap-2 px-4 xs:px-5 sm:px-8 py-2.5 xs:py-3 bg-[var(--bg-secondary)] rounded-xl hover:bg-[var(--bg-tertiary)] disabled:opacity-30 disabled:cursor-not-allowed transition-all text-sm xs:text-base font-bold border border-[var(--border-color)] hover:border-[var(--accent-primary)] shadow-sm active:scale-95"
                         >
-                            <ChevronLeft className="w-3 h-3 xs:w-4 xs:h-4" /> <span className="hidden xs:inline">Previous</span><span className="xs:hidden">Prev</span>
+                            <ChevronLeft className="w-4 h-4" /> <span className="hidden xs:inline">Previous</span><span className="xs:hidden">Prev</span>
                         </button>
-                        <span className="flex items-center px-2 xs:px-3 sm:px-4 text-sm xs:text-base font-mono text-slate-400">
+                        <span className="flex items-center px-4 text-base font-bold text-[var(--text-primary)] min-w-[3rem] justify-center">
                             {filters.page}
                         </span>
                         <button
                             disabled={performances.length < filters.rows}
                             onClick={() => setFilters({ ...filters, page: filters.page + 1 })}
-                            className="flex items-center gap-1 xs:gap-2 px-3 xs:px-4 sm:px-6 py-2 xs:py-2.5 sm:py-3 bg-slate-800 rounded-lg xs:rounded-xl hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm xs:text-base font-medium border border-slate-700 hover:border-purple-500/50"
+                            className="flex items-center gap-1 xs:gap-2 px-4 xs:px-5 sm:px-8 py-2.5 xs:py-3 bg-[var(--bg-secondary)] rounded-xl hover:bg-[var(--bg-tertiary)] disabled:opacity-30 disabled:cursor-not-allowed transition-all text-sm xs:text-base font-bold border border-[var(--border-color)] hover:border-[var(--accent-primary)] shadow-sm active:scale-95"
                         >
-                            <span className="hidden xs:inline">Next</span><span className="xs:hidden">Next</span> <ChevronRight className="w-3 h-3 xs:w-4 xs:h-4" />
+                            <span className="hidden xs:inline">Next</span><span className="xs:hidden">Next</span> <ChevronRight className="w-4 h-4" />
                         </button>
                     </div>
                 </>

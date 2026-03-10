@@ -25,7 +25,7 @@ const PerformanceCard = ({ performance }) => {
             className="h-full"
         >
             <Link to={`/performance/${id}`} className="block group h-full">
-                <div className="bg-slate-900/40 rounded-2xl overflow-hidden border border-white/5 hover:border-purple-500/30 transition-colors duration-500 backdrop-blur-md shadow-2xl h-full flex flex-col relative">
+                <div className="bg-[var(--bg-card)] rounded-[var(--radius-lg)] overflow-hidden border border-[var(--border-color)] hover:border-[var(--border-focus)] transition-all duration-500 backdrop-blur-xl shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] h-full flex flex-col relative">
 
                     {/* Image Container */}
                     <div className="relative aspect-[3/4] overflow-hidden">
@@ -44,24 +44,24 @@ const PerformanceCard = ({ performance }) => {
                     </div>
 
                     {/* Content */}
-                    <div className="p-4 flex-1 flex flex-col gap-2">
-                        <div className="flex items-center gap-1.5">
-                            <span className="px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-400 text-[10px] font-bold border border-purple-500/20">
+                    <div className="p-4 xs:p-5 flex-1 flex flex-col gap-2.5">
+                        <div className="flex items-center gap-2">
+                            <span className="px-2.5 py-0.5 rounded-md bg-[var(--accent-glow)] text-[var(--accent-primary)] text-[10px] xs:text-[11px] font-bold border border-[var(--border-focus)]">
                                 {genre}
                             </span>
                         </div>
 
-                        <h3 className="text-base font-bold text-white leading-tight line-clamp-2 group-hover:text-purple-300 transition-colors min-h-[2.5rem]">
+                        <h3 className="text-base xs:text-lg font-bold text-[var(--text-primary)] leading-tight line-clamp-2 group-hover:text-[var(--accent-primary)] transition-colors min-h-[2.5rem] xs:min-h-[3rem]">
                             {title}
                         </h3>
 
-                        <div className="mt-auto space-y-1.5 text-xs text-slate-400">
+                        <div className="mt-auto space-y-2 text-[11px] xs:text-xs text-[var(--text-secondary)]">
                             <div className="flex items-center gap-2">
-                                <Calendar className="w-3.5 h-3.5 text-purple-500/70 shrink-0" />
+                                <Calendar className="w-3.5 h-3.5 text-[var(--accent-primary)] opacity-70 shrink-0" />
                                 <span className="truncate">{startDate} ~ {endDate}</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <MapPin className="w-3.5 h-3.5 text-pink-500/70 shrink-0" />
+                                <MapPin className="w-3.5 h-3.5 text-[var(--accent-secondary)] opacity-70 shrink-0" />
                                 <span className="truncate">{place}</span>
                             </div>
                         </div>

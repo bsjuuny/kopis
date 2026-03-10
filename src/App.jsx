@@ -7,13 +7,10 @@ import DonationPopup from './components/DonationPopup';
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-[url('https://images.unsplash.com/photo-1514306191717-452ec28c7f31?q=80&w=2070&auto=format&fit=crop')] bg-fixed bg-cover bg-no-repeat relative">
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-slate-900/90 backdrop-blur-sm z-0"></div>
-
-        <div className="relative z-10 w-full min-h-screen">
+      <div className="min-h-screen transition-colors duration-500">
+        <div className="relative z-10 w-full min-h-screen flex flex-col">
           <Header />
-          <main>
+          <main className="flex-grow">
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/performance/:id" element={<PerformanceDetail />} />
@@ -21,8 +18,9 @@ function App() {
             </Routes>
           </main>
 
-          <footer className="text-center py-8 text-slate-500 text-sm">
-            <p>© {new Date().getFullYear()} KOPIS Arts. Data provided by KOPIS.</p>
+          <footer className="text-center py-10 text-[var(--text-muted)] text-sm font-medium">
+            <p>© {new Date().getFullYear()} KOPIS Arts. All rights reserved.</p>
+            <p className="mt-1 opacity-70">Data provided by KOPIS API</p>
           </footer>
           <DonationPopup />
         </div>
