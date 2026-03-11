@@ -29,16 +29,24 @@ const PerformanceDetail = () => {
     }, [id]);
 
     if (loading) return (
-        <div className="flex justify-center items-center h-[60vh]">
-            <div className="w-14 h-14 border-4 border-[var(--accent-glow)] border-t-[var(--accent-primary)] rounded-full animate-spin"></div>
+        <div className="flex justify-center items-center h-[70vh]">
+            <div className="relative">
+                <div className="w-16 h-16 border-4 border-[var(--accent-glow)] border-t-[var(--accent-primary)] rounded-full animate-spin"></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-2 h-2 bg-[var(--accent-primary)] rounded-full animate-ping"></div>
+                </div>
+            </div>
         </div>
     );
 
     if (error || !performance) return (
-        <div className="container py-20 text-center">
-            <h2 className="text-2xl font-bold text-red-400 mb-4">Error</h2>
-            <p className="text-slate-400">{error || "Performance not found"}</p>
-            <Link to="/" className="inline-block mt-8 btn-primary">
+        <div className="container py-32 text-center">
+            <div className="inline-flex p-4 rounded-full bg-red-500/10 mb-6">
+                <Info size={48} className="text-red-500" />
+            </div>
+            <h2 className="text-3xl font-black text-[var(--text-primary)] mb-4">Oops!</h2>
+            <p className="text-[var(--text-secondary)] text-lg mb-10 max-w-md mx-auto">{error || "Performance details could not be found."}</p>
+            <Link to="/" className="btn-primary inline-flex">
                 Back to Home
             </Link>
         </div>
@@ -104,10 +112,12 @@ const PerformanceDetail = () => {
                                                 href={relate.url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="flex items-center justify-between px-6 py-4.5 rounded-[var(--radius-lg)] bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[var(--accent-primary)] hover:bg-[var(--bg-tertiary)] transition-all group active:scale-[0.98]"
+                                                className="flex items-center justify-between px-6 py-5 rounded-[var(--radius-lg)] bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-[var(--accent-primary)] hover:bg-[var(--accent-glow)] hover:shadow-[0_8px_25px_-5px_rgba(175,82,222,0.15)] transition-all group active:scale-[0.98] ring-1 ring-inset ring-transparent hover:ring-[var(--accent-primary)/20]"
                                             >
-                                                <span className="font-bold text-[var(--text-secondary)] group-hover:text-[var(--accent-primary)]">{relate.name || 'Official Booking'}</span>
-                                                <Ticket className="w-5 h-5 text-[var(--accent-primary)] opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1" />
+                                                <span className="font-black text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] text-sm tracking-tight">{relate.name || 'Official Booking'}</span>
+                                                <div className="p-2 rounded-lg bg-[var(--bg-tertiary)] group-hover:bg-[var(--accent-primary)] transition-colors">
+                                                    <Ticket className="w-4 h-4 text-[var(--accent-primary)] group-hover:text-white transition-colors" />
+                                                </div>
                                             </a>
                                         ))
                                     ) : (
@@ -147,7 +157,7 @@ const PerformanceDetail = () => {
                                         <Calendar className="w-6 h-6 text-[var(--accent-primary)]" />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] uppercase font-black text-[var(--text-muted)] tracking-wider mb-0.5">Schedule</p>
+                                        <p className="text-[10px] uppercase font-black text-[var(--accent-primary)] tracking-wider mb-0.5">Schedule</p>
                                         <p className="text-[var(--text-primary)] font-bold text-lg">{startDate} &ndash; {endDate}</p>
                                     </div>
                                 </div>
@@ -156,7 +166,7 @@ const PerformanceDetail = () => {
                                         <MapPin className="w-6 h-6 text-[var(--accent-secondary)]" />
                                     </div>
                                     <div className="flex-1">
-                                        <p className="text-[10px] uppercase font-black text-[var(--text-muted)] tracking-wider mb-0.5">Venue</p>
+                                        <p className="text-[10px] uppercase font-black text-[var(--accent-secondary)] tracking-wider mb-0.5">Venue</p>
                                         <p className="text-[var(--text-primary)] font-bold text-lg leading-tight">{place}</p>
                                     </div>
                                 </div>
@@ -188,7 +198,7 @@ const PerformanceDetail = () => {
                                 className="space-y-6"
                             >
                                 <h3 className="text-2xl font-black tracking-tight border-l-4 border-[var(--accent-primary)] pl-4">Synopsis</h3>
-                                <p className="text-[var(--text-secondary)] text-lg leading-relaxed whitespace-pre-line selection:bg-[var(--accent-glow)] font-medium">
+                                <p className="text-[var(--text-primary)] text-lg leading-relaxed whitespace-pre-line selection:bg-[var(--accent-glow)] font-medium">
                                     {story.replace(/<[^>]*>/g, '')}
                                 </p>
                             </motion.div>

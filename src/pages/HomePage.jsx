@@ -76,7 +76,7 @@ const HomePage = () => {
                             placeholder="공연 명칭을 입력하세요..."
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
-                            className="bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] rounded-[var(--radius-lg)] pl-12 pr-4 py-3.5 text-sm focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] outline-none w-full shadow-inner backdrop-blur-md transition-all placeholder:text-[var(--text-muted)]"
+                            className="bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] rounded-[var(--radius-lg)] pl-12 pr-4 py-3.5 text-sm font-bold focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] outline-none w-full shadow-inner backdrop-blur-md transition-all placeholder:text-[var(--input-placeholder)]"
                         />
                         <Search className="w-5 h-5 text-[var(--text-muted)] absolute left-4 top-1/2 -translate-y-1/2" />
                     </form>
@@ -153,7 +153,7 @@ const HomePage = () => {
             {loading ? (
                 <div className="flex flex-col items-center justify-center py-24" >
                     <Loader className="w-12 h-12 text-[var(--accent-primary)] animate-spin mb-6" />
-                    <p className="text-[var(--text-secondary)] font-medium">Curating the stage for you...</p>
+                    <p className="text-[var(--text-primary)] font-black text-lg tracking-tight">Curating the stage for you...</p>
                 </div>
             ) : error ? (
                 <div className="bg-red-900/20 border border-red-500/50 rounded-xl p-8 text-center max-w-lg mx-auto">

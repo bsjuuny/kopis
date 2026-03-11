@@ -16,8 +16,9 @@
   --bg-glass: rgba(0, 0, 0, 0.7);
 
   --text-primary: #ffffff;
-  --text-secondary: rgba(235, 235, 245, 0.6);
-  --text-muted: rgba(235, 235, 245, 0.3);
+  --text-secondary: rgba(255, 255, 255, 0.75);
+  --text-muted: rgba(255, 255, 255, 0.45);
+  --input-placeholder: rgba(255, 255, 255, 0.35);
 
   --accent-primary: #af52de;
   /* System Purple */
@@ -53,7 +54,8 @@ html[data-theme="light"] {
 
   --text-primary: #000000;
   --text-secondary: #3c3c43;
-  --text-muted: #8e8e93;
+  --text-muted: #666666;
+  --input-placeholder: #a1a1aa;
 
   --accent-primary: #5856d6;
   /* System Indigo */
@@ -95,6 +97,11 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   letter-spacing: -0.011em;
+}
+
+::placeholder {
+  color: var(--input-placeholder);
+  opacity: 1;
 }
 
 h1,
