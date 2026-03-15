@@ -139,10 +139,23 @@ const PerformanceDetail = () => {
                             className="space-y-6"
                         >
                             <div className="flex flex-wrap gap-3">
-                                <span className="px-4 py-1.5 bg-[var(--accent-glow)] text-[var(--accent-primary)] rounded-full text-[10px] font-black uppercase tracking-[0.15em] border border-[var(--border-focus)] backdrop-blur-md">
+                                <span 
+                                    className="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.15em] border backdrop-blur-md transition-colors"
+                                    style={{ 
+                                        backgroundColor: 'var(--accent-glow)', 
+                                        color: 'var(--accent-primary)',
+                                        borderColor: 'var(--border-focus)'
+                                    }}
+                                >
                                     {genre}
                                 </span>
-                                <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.15em] border backdrop-blur-md ${state === '공연중' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30' : 'bg-[var(--bg-tertiary)] text-[var(--text-muted)] border-[var(--border-color)]'}`}>
+                                <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.15em] border backdrop-blur-md transition-colors ${
+                                    state === '공연중' 
+                                        ? 'bg-emerald-500/20 text-emerald-500 border-emerald-500/50' 
+                                        : state === '공연예정'
+                                            ? 'bg-amber-500/20 text-amber-500 border-amber-500/50'
+                                            : 'bg-[var(--bg-tertiary)] text-[var(--text-primary)] border-[var(--border-color)]'
+                                }`}>
                                     {state}
                                 </span>
                             </div>
