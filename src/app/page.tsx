@@ -120,9 +120,6 @@ export default function HomePage() {
       saveFilters(updated);
       return updated;
     });
-    if (isSticky) {
-      setTimeout(scrollToResults, 100);
-    }
   };
 
   return (
