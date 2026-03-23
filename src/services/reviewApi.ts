@@ -54,34 +54,14 @@ export const fetchReviews = async (performanceTitle: string, display = 10): Prom
 
     if (!response.data?.items) return [];
 
-    const sixMonthsAgo = new Date();
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+    const items: unknown[] = response.data.items;
+
+    const cutoff = new Date();
+    cutoff.setMonth(cutoff.getMonth() - 3); // 3개월 이내
 
     const normalize = (s: string) =>
       s.replace(/<[^>]+>/g, "").replace(/\s+/g, "").toLowerCase();
-
-    // 키워드를 개별 단어로 분리해 각각 포함 여부 확인 (붙여쓰기 이슈 방지)
-    const keywordParts = keyword
-      .split(/\s+/)
-      .map((w) => w.toLowerCase())
-      .filter((w) => w.length >= 1);
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const filtered = response.data.items.filter((item: any) => {
-      // 날짜 필터: 6개월 이내
-      const dateRaw: string = item.postdate || "";
-      if (dateRaw.length === 8) {
-        const postDate = new Date(
-          `${dateRaw.slice(0, 4)}-${dateRaw.slice(4, 6)}-${dateRaw.slice(6, 8)}`
-        );
-        if (postDate < sixMonthsAgo) return false;
-      }
-
-      // 제목+본문 합산 텍스트에 키워드 단어 모두 포함 여부
-      const normText =
-        normalize(item.title || "") + normalize(item.description || "");
-      return keywordParts.every((part) => normText.includes(part));
-    });
+    const normKeyword = normalize(keyword);
 
     const decodeHtml = (s: string) =>
       s.replace(/<[^>]+>/g, "")
@@ -90,19 +70,36 @@ export const fetchReviews = async (performanceTitle: string, display = 10): Prom
        .replace(/&#39;/g, "'").replace(/&apos;/g, "'");
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return filtered.slice(0, display).map((item: any) => {
-      const dateRaw: string = item.postdate || "";
-      return {
-        title: decodeHtml(item.title || ""),
-        description: decodeHtml(item.description || ""),
-        link: item.link,
-        blogger: item.bloggername,
-        date:
-          dateRaw.length === 8
-            ? `${dateRaw.slice(0, 4)}.${dateRaw.slice(4, 6)}.${dateRaw.slice(6, 8)}`
-            : dateRaw,
-      };
-    });
+    return (items as any[])
+      .filter((item) => {
+        // 날짜 필터: 3개월 이내
+        const dateRaw: string = item.postdate || "";
+        if (dateRaw.length === 8) {
+          const postDate = new Date(
+            `${dateRaw.slice(0, 4)}-${dateRaw.slice(4, 6)}-${dateRaw.slice(6, 8)}`
+          );
+          if (postDate < cutoff) return false;
+        }
+        // 키워드 필터: title 또는 description 중 하나에 포함
+        const normTitle = normalize(item.title || "");
+        const normDesc  = normalize(item.description || "");
+        return normTitle.includes(normKeyword) || normDesc.includes(normKeyword);
+      })
+      .slice(0, display)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .map((item: any) => {
+        const dateRaw: string = item.postdate || "";
+        return {
+          title: decodeHtml(item.title || ""),
+          description: decodeHtml(item.description || ""),
+          link: item.link,
+          blogger: item.bloggername || "Naver Blog",
+          date:
+            dateRaw.length === 8
+              ? `${dateRaw.slice(0, 4)}.${dateRaw.slice(4, 6)}.${dateRaw.slice(6, 8)}`
+              : "",
+        };
+      });
   } catch (error) {
     console.error("Failed to fetch reviews:", error);
     return [];
