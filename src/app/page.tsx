@@ -17,16 +17,31 @@ import Link from "next/link";
 import { Heart } from "lucide-react";
 
 export default function HomePage() {
-  const [params, setParams] = useState<KOPISParams>({
-    startDate: new Date().toISOString().slice(0, 10).replace(/-/g, ""),
-    endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10).replace(/-/g, ""),
-    page: 1,
-    rows: 40,
-    genre: "",
-    status: "02", // Running
+  const [params, setParams] = useState<KOPISParams>(() => {
+    const defaults: KOPISParams = {
+      startDate: new Date().toISOString().slice(0, 10).replace(/-/g, ""),
+      endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10).replace(/-/g, ""),
+      page: 1,
+      rows: 40,
+      genre: "",
+      status: "02",
+    };
+    if (typeof window === "undefined") return defaults;
+    try {
+      const saved = sessionStorage.getItem("kopis-filters");
+      return saved ? { ...defaults, ...JSON.parse(saved) } : defaults;
+    } catch {
+      return defaults;
+    }
   });
 
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState(() => {
+    if (typeof window === "undefined") return "";
+    try {
+      const saved = sessionStorage.getItem("kopis-filters");
+      return saved ? (JSON.parse(saved).keyword ?? "") : "";
+    } catch { return ""; }
+  });
   const [isSticky, setIsSticky] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -86,13 +101,25 @@ export default function HomePage() {
     }
   };
 
+  const saveFilters = (updated: KOPISParams) => {
+    try { sessionStorage.setItem("kopis-filters", JSON.stringify(updated)); } catch {}
+  };
+
   const handlePageChange = (newPage: number) => {
-    setParams(prev => ({ ...prev, page: newPage }));
+    setParams(prev => {
+      const updated = { ...prev, page: newPage };
+      saveFilters(updated);
+      return updated;
+    });
     scrollToResults();
   };
 
   const updateParams = (newParams: Partial<KOPISParams>) => {
-    setParams(prev => ({ ...prev, ...newParams, page: 1 }));
+    setParams(prev => {
+      const updated = { ...prev, ...newParams, page: 1 };
+      saveFilters(updated);
+      return updated;
+    });
     if (isSticky) {
       setTimeout(scrollToResults, 100);
     }

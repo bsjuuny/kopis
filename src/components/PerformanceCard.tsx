@@ -48,19 +48,19 @@ export default function PerformanceCard({ performance }: PerformanceCardProps) {
         </div>
         
         <div className="flex flex-col p-4 flex-grow">
-          <span className="text-[10px] font-bold text-[var(--accent-primary)] uppercase tracking-wider mb-1">
+          <span className="text-[11px] font-bold text-[var(--accent-primary)] uppercase tracking-wider mb-1">
             {performance.genre}
           </span>
-          <h3 className="text-sm font-bold leading-tight mb-2 line-clamp-2 min-h-[2.5rem] text-[var(--text-primary)]">
+          <h3 className="text-[15px] font-bold leading-snug mb-2 line-clamp-2 min-h-[2.75rem] text-[var(--text-primary)]">
             {performance.title}
           </h3>
-          
+
           <div className="mt-auto space-y-1.5">
-            <div className="flex items-center gap-1.5 text-[11px] text-[var(--text-secondary)]">
+            <div className="flex items-center gap-1.5 text-xs text-[var(--text-secondary)]">
               <Calendar size={12} className="shrink-0" />
               <span>{performance.startDate} - {performance.endDate}</span>
             </div>
-            <div className="flex items-center gap-1.5 text-[11px] text-[var(--text-secondary)]">
+            <div className="flex items-center gap-1.5 text-xs text-[var(--text-secondary)]">
               <MapPin size={12} className="shrink-0" />
               <span className="line-clamp-1">{performance.place}</span>
             </div>
