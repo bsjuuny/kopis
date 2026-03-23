@@ -3,7 +3,7 @@
 import { useFavorites } from "@/hooks/useFavorites";
 import PerformanceCard from "@/components/PerformanceCard";
 import Link from "next/link";
-import { Heart, ArrowLeft } from "lucide-react";
+import { Heart, ArrowLeft, MonitorSmartphone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function FavoritesPage() {
@@ -30,6 +30,12 @@ export default function FavoritesPage() {
         <span className="text-sm font-bold px-3 py-1 rounded-full bg-rose-500/10 text-rose-500 border border-rose-500/20">
           {favorites.length}개
         </span>
+      </div>
+
+      {/* 기기 공유 안내 */}
+      <div className="flex items-center gap-2 mb-8 px-3 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] w-fit text-xs text-[var(--text-muted)]">
+        <MonitorSmartphone size={13} className="shrink-0" aria-hidden="true" />
+        <span>찜 목록은 이 기기에만 저장되며 다른 기기와 공유되지 않습니다.</span>
       </div>
 
       {/* 빈 상태 */}
