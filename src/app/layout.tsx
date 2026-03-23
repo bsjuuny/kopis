@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <Header />
-          <main className="min-h-screen bg-[var(--bg-primary)]">
+          <main className="min-h-screen bg-[var(--bg-primary)] pb-24">
             {children}
           </main>
         </Providers>
