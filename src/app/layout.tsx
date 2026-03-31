@@ -7,8 +7,8 @@ import Header from "@/components/Header";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "KOPIS Arts - 공공데이터 공연 정보",
-  description: "대한민국의 모든 공연 정보를 한눈에 확인하세요.",
+  title: "공연마루 | Stage Maru",
+  description: "오늘, 당신을 위한 막이 오르면 - 대한민국의 모든 공연 정보를 한눈에 확인하세요.",
 };
 
 export default function RootLayout({

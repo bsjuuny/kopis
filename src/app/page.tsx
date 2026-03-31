@@ -44,9 +44,13 @@ export default function HomePage() {
   });
   const [isSticky, setIsSticky] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const filterBarRef = useRef<HTMLDivElement>(null);
+  const filterBarHeightRef = useRef(0);
 
   useEffect(() => {
+    setIsMounted(true);
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
@@ -55,6 +59,11 @@ export default function HomePage() {
 
     checkMobile();
     window.addEventListener("resize", checkMobile);
+
+    // Capture filter bar height while it's still in-flow
+    if (filterBarRef.current) {
+      filterBarHeightRef.current = filterBarRef.current.offsetHeight;
+    }
 
     const handleScroll = () => {
       if (window.innerWidth >= 768) {
@@ -129,14 +138,18 @@ export default function HomePage() {
     )}>
       <header className={cn("mb-12 w-full overflow-hidden", isMobile && "hidden")}>
         <h1 
-          className="text-4xl md:text-5xl font-black mb-4 tracking-tight bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent"
+          className="text-4xl md:text-5xl font-black mb-4 tracking-tight bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent flex items-baseline gap-3"
         >
-          KOPIS Arts
+          공연마루 <span className="text-2xl md:text-3xl font-bold opacity-60 tracking-tighter" style={{ WebkitTextFillColor: 'var(--text-secondary)' }}>| Stage Maru</span>
         </h1>
         <p className="text-[var(--text-secondary)] font-medium">대한민국 공연예술의 모든 것</p>
       </header>
 
-      <div className={cn(
+      {isSticky && !isMobile && (
+        <div style={{ height: filterBarHeightRef.current || 220 }} aria-hidden="true" />
+      )}
+
+      <div ref={filterBarRef} className={cn(
         "space-y-6 mb-12 transition-all duration-300",
         isSticky && "fixed top-16 left-0 right-0 z-40 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-2xl border-b border-[var(--border-color)] py-2 mb-0 shadow-lg px-4"
       )}>
@@ -153,7 +166,7 @@ export default function HomePage() {
                   <input 
                     type="text"
                     placeholder="공연명, 장소 등을 검색해보세요"
-                    value={searchInput}
+                    value={isMounted ? searchInput : ""}
                     onChange={(e) => setSearchInput(e.target.value)}
                     className={cn(
                       "w-full bg-transparent border-none outline-none px-3 py-3 font-bold text-base sm:text-lg placeholder:font-medium min-w-0 font-sans text-[var(--text-primary)]",
@@ -187,7 +200,7 @@ export default function HomePage() {
                     className={cn(
                       "transition-all font-black whitespace-nowrap",
                       isSticky ? "px-3 py-1 rounded-lg text-xs" : "px-4 sm:px-5 py-2 text-xs sm:text-sm rounded-xl",
-                      params.status === s.value 
+                      (isMounted && params.status === s.value)
                         ? "bg-[var(--accent-primary)] text-white shadow-md" 
                         : "text-[var(--text-secondary)] dark:text-zinc-400 hover:text-[var(--text-primary)]"
                     )}
@@ -202,7 +215,7 @@ export default function HomePage() {
                 className={cn(
                   "transition-all font-black border shrink-0 flex items-center gap-2 relative overflow-hidden whitespace-nowrap",
                   isSticky ? "px-3 py-1 rounded-lg text-xs" : "px-4 sm:px-6 py-2.5 text-xs sm:text-sm rounded-xl",
-                  params.kid 
+                  (isMounted && params.kid)
                     ? "bg-gradient-to-r from-amber-400 via-orange-500 to-amber-600 text-white border-transparent shadow-xl shadow-amber-500/40" 
                     : "bg-[var(--bg-primary)] text-[var(--text-secondary)] border-[var(--border-color)] hover:border-amber-400"
                 )}
@@ -229,7 +242,7 @@ export default function HomePage() {
                           onClick={() => updateParams({ genre: g.value })}
                           className={cn(
                             "px-3 py-1 rounded-lg font-bold text-xs transition-all whitespace-nowrap",
-                            params.genre === g.value
+                            (isMounted && params.genre === g.value)
                               ? "bg-[var(--accent-primary)] text-white"
                               : "text-[var(--text-secondary)] dark:text-zinc-400 hover:bg-[var(--accent-primary)]/10"
                           )}
@@ -248,7 +261,7 @@ export default function HomePage() {
               <div className="flex items-center gap-2">
                 <span className="text-xs font-black uppercase tracking-widest text-[var(--text-primary)] dark:text-zinc-400 leading-none">지역</span>
                 <select 
-                  value={params.area || ""}
+                  value={isMounted ? (params.area || "") : ""}
                   onChange={(e) => updateParams({ area: e.target.value })}
                   className="bg-transparent font-black text-xs sm:text-sm outline-none text-[var(--accent-primary)] cursor-pointer leading-none"
                 >
@@ -266,7 +279,7 @@ export default function HomePage() {
               <div className="flex items-center gap-2">
                 <span className="text-xs font-black uppercase tracking-widest text-[var(--text-primary)] dark:text-zinc-400 leading-none">정렬</span>
                 <select 
-                  value={params.newsql || "N"}
+                  value={isMounted ? (params.newsql || "N") : "N"}
                   onChange={(e) => updateParams({ newsql: e.target.value })}
                   className="bg-transparent font-black text-xs sm:text-sm outline-none text-[var(--accent-primary)] cursor-pointer leading-none"
                 >
@@ -299,7 +312,7 @@ export default function HomePage() {
                       onClick={() => updateParams({ genre: g.label === "전체" ? "" : g.value })}
                       className={cn(
                         "px-4 py-2 rounded-full font-bold text-xs border transition-all whitespace-nowrap",
-                        params.genre === g.value
+                        (isMounted && params.genre === g.value)
                           ? "bg-[var(--accent-primary)] text-white border-[var(--accent-primary)] shadow-lg shadow-[var(--accent-primary)]/20"
                           : "bg-[var(--bg-card)] text-[var(--text-secondary)] border-[var(--border-color)] hover:border-[var(--accent-primary)]"
                       )}
@@ -331,7 +344,7 @@ export default function HomePage() {
         <>
           {/* Personalized Recommendations Section */}
           <AnimatePresence>
-            {favorites.length > 0 && recommendations.length > 0 && (
+            {favorites.length > 0 && recommendations.length > 0 && !params.keyword && (
               <motion.section
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

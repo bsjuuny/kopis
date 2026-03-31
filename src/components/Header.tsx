@@ -16,7 +16,7 @@ export default function Header() {
           <div className="p-2 rounded-xl bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white shadow-lg">
             <Theater size={20} />
           </div>
-          <span className="text-xl font-black tracking-tighter text-[var(--text-primary)]">KOPIS Arts</span>
+          <span className="text-xl font-black tracking-tighter text-[var(--text-primary)]">공연마루</span>
         </Link>
 
         <nav className="flex items-center gap-4">
