@@ -27,6 +27,9 @@ yarn-error.log*
 .env*.local
 .env
 
+# secrets not meant for git
+public/naver_proxy_config.php
+
 # vercel
 .vercel
 
