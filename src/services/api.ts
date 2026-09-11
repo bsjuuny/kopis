@@ -11,6 +11,10 @@ const API_BASE_URL = process.env.NODE_ENV === "development"
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
+  // 인앱 웹뷰(링크드인 등)는 네트워크 스택이 더 제한적이라 응답도 에러도 없이 요청이
+  // 그대로 멈추는 경우가 있다 — 타임아웃이 없으면 react-query의 isLoading이 영원히
+  // true로 남아 로딩 스피너만 계속 보이게 된다 (2026-08-19 링크드인 웹뷰에서 발견).
+  timeout: 15000,
 });
 
 // Helper to safely extract text from XML-JSON object
