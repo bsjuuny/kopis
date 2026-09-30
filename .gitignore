@@ -36,3 +36,4 @@ public/naver_proxy_config.php
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+public/kopis_proxy_config.php

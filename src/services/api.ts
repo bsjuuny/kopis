@@ -30,15 +30,10 @@ const parseXml = (xml: string) => {
   return xml2js(xml, { compact: true }) as any;
 };
 
+// KOPIS 키는 브라우저에 두지 않는다 — 배포본은 proxy.php, 개발 서버는 middleware.ts 가 서버에서 붙인다
+// (2026-09-30: 예전엔 NEXT_PUBLIC_KOPIS_API_KEY 로 빌드 JS에 키가 박혀 있었다).
 export const fetchPerformances = async (params: KOPISParams): Promise<KOPISPerformance[]> => {
-  const apiKey = process.env.NEXT_PUBLIC_KOPIS_API_KEY;
-  if (!apiKey) {
-    console.error("KOPIS API Key is missing");
-    return [];
-  }
-
   const queryParams = {
-    service: apiKey,
     stdate: params.startDate,
     eddate: params.endDate,
     cpage: params.page || 1,
@@ -77,13 +72,8 @@ export const fetchPerformances = async (params: KOPISParams): Promise<KOPISPerfo
 };
 
 export const fetchPerformanceDetail = async (id: string): Promise<KOPISPerformanceDetail | null> => {
-  const apiKey = process.env.NEXT_PUBLIC_KOPIS_API_KEY;
-  if (!apiKey) return null;
-
   try {
-    const response = await apiClient.get(`/pblprfr/${id}`, {
-      params: { service: apiKey },
-    });
+    const response = await apiClient.get(`/pblprfr/${id}`);
     const data = parseXml(response.data);
 
     if (data.dbs && data.dbs.db) {
