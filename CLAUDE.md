@@ -23,10 +23,10 @@
 
 ### 배포 환경 (Cafe24)
 - 실제로 쓰는 배포 방식은 Cafe24 정적 호스팅(`basePath: '/kopis'`)입니다. `CAFE24_DEPLOYMENT.md`, `DEPLOYMENT.md`, `LINUX_DEPLOYMENT.md`, `nginx.conf`, `deploy.sh`처럼 배포 문서가 여러 개 있는데, 서로 다른 시점의 시도 흔적일 수 있으니 문서보다 최신 `next.config.ts` 설정을 우선 신뢰하세요.
-- **`legacy-vite/`, `dist/`, `server.js`는 이 프로젝트의 옛날 버전(Vite + Express 프록시)의 잔재이며 현재 사용되지 않습니다.** 실제로 손대야 할 코드는 `src/`(Next.js App Router)뿐입니다 — legacy 스택을 다뤄달라는 명시적 요청이 아니면 이 파일들은 건드리지 마세요.
+- 실제로 손대야 할 코드는 `src/`(Next.js App Router)뿐입니다. 옛 Vite + Express 버전의 잔재(`legacy-vite/`, `dist/`, `server.js`)는 옛 키가 박혀 있어 2026-10-07에 삭제했습니다.
 
 ### API 키 관리
-- `.env` 파일에 KOPIS에서 발급받은 API 키를 넣어야 정상적으로 데이터가 나옵니다. 키가 없으면 화면에 아무것도 나오지 않을 수 있습니다.
+- `.env`의 `KOPIS_API_KEY`, `NAVER_CLIENT_ID`, `NAVER_CLIENT_SECRET`(서버 전용 이름)이 키 원본입니다. `npm run build` 때 prebuild가 이 값으로 `public/*_proxy_config.php`(git 제외)를 만들고, 배포본의 PHP 중계가 그 파일을 읽습니다. 브라우저 코드에는 키가 들어가지 않습니다.
 
 ---
 
@@ -44,4 +44,5 @@
 - `src/services/api.ts`, `src/services/reviewApi.ts`: KOPIS/Naver API 연동.
 - `src/lib/recommendation.ts`, `src/lib/security.ts`
 - `src/app/{performance,favorites,login,recommendations}`: 주요 라우트.
-- `server.js`, `nginx.conf`, `legacy-vite/`, `dist/`: 옛날 Vite+Express 버전의 잔재, 현재 미사용 (위 참고).
+- `public/proxy.php`, `public/naver_proxy.php`: 배포본(Cafe24)의 KOPIS·Naver API 중계.
+- `nginx.conf`, `deploy.sh`, `LINUX_DEPLOYMENT.md`: 옛 Vite+Express 시절 문서, 현재 미사용.
