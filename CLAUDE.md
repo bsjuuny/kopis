@@ -26,7 +26,7 @@
 - 실제로 손대야 할 코드는 `src/`(Next.js App Router)뿐입니다. 옛 Vite + Express 버전의 잔재(`legacy-vite/`, `dist/`, `server.js`)는 옛 키가 박혀 있어 2026-10-07에 삭제했습니다.
 
 ### API 키 관리
-- `.env`의 `KOPIS_API_KEY`, `NAVER_CLIENT_ID`, `NAVER_CLIENT_SECRET`(서버 전용 이름)이 키 원본입니다. `npm run build` 때 prebuild가 이 값으로 `public/*_proxy_config.php`(git 제외)를 만들고, 배포본의 PHP 중계가 그 파일을 읽습니다. 브라우저 코드에는 키가 들어가지 않습니다.
+- 키 원본은 이 PC의 공용 금고(`C:\github\.secrets`)에 있는 `KOPIS_API_KEY`, `NAVER_CLIENT_ID`, `NAVER_CLIENT_SECRET`(서버 전용 이름)입니다(2026-10-08부터). `npm run build` 때 prebuild가 이 값으로 `public/*_proxy_config.php`(git 제외)를 만들고, 배포본의 PHP 중계가 그 파일을 읽습니다. 금고를 못 열 때만 `.env` 값을 씁니다. 브라우저 코드에는 키가 들어가지 않습니다.
 
 ---
 
