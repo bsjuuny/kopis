@@ -80,7 +80,7 @@ export default function HomePage() {
     };
   }, []);
 
-  const { data: performances, isLoading, error } = useQuery({
+  const { data: performances, isLoading, error, refetch, isFetching } = useQuery({
     queryKey: ["performances", params],
     queryFn: () => fetchPerformances(params),
   });
@@ -334,7 +334,18 @@ export default function HomePage() {
         </div>
       ) : error ? (
         <div className="text-center py-40">
-          <p className="text-red-500 font-bold mb-4">데이터 로드 실패: API 키를 확인해주세요.</p>
+          {/* 키 문제가 아니어도(모바일 망 끊김·15초 시간 초과·KOPIS 일시 오류) 여기로 온다 — 키 탓으로 안내하지 않는다 (2026-10-27 아이폰 크롬). */}
+          <p className="text-red-500 font-bold mb-2">공연 정보를 불러오지 못했습니다.</p>
+          <p className="text-sm text-[var(--text-muted)] mb-6">네트워크가 불안정하거나 공연 정보 서버가 잠시 응답하지 않을 수 있습니다.</p>
+          <button
+            type="button"
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--accent-primary)] text-white font-bold disabled:opacity-60"
+          >
+            {isFetching && <Loader2 className="animate-spin" size={18} />}
+            {isFetching ? "다시 불러오는 중..." : "다시 시도"}
+          </button>
         </div>
       ) : performances?.length === 0 ? (
         <div className="text-center py-40">
